@@ -1,11 +1,8 @@
 package time.test;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAdjusters;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.WeekFields;
 import java.util.Scanner;
 
 public class TestCalander {
@@ -19,24 +16,24 @@ public class TestCalander {
         System.out.print("월을 입력하세요: ");
         int month = scanner.nextInt();
 
-        printCalendar(year, month);
-    }
-    public static void printCalendar(int year, int month) {
-        LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
-        LocalDate firstDayOfNextMonth = firstDayOfMonth.plusMonths(1);
-        //월요일=1(1%7=1), ... 일요일=7(7%7=0)
-        int offsetWeekDays = firstDayOfMonth.getDayOfWeek().getValue() % 7;
         System.out.println("Su Mo Tu We Th Fr Sa ");
-        for (int i = 0; i < offsetWeekDays; i++) {
-            System.out.print(" ");
-        }
-        LocalDate dayIterator = firstDayOfMonth;
-        while (dayIterator.isBefore(firstDayOfNextMonth)) {
-            System.out.printf("%2d ", dayIterator.getDayOfMonth());
-            if (dayIterator.getDayOfWeek() == DayOfWeek.SATURDAY) {
+
+        LocalDate localDate = LocalDate.of(year, month, 1);
+
+        int firstDay = localDate.getDayOfMonth();
+        int lastDay = localDate.with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth();
+
+        for (int i = 1; i <= lastDay; i++) {
+
+            System.out.print(i + " ");
+            if(i % 7 == 0){
                 System.out.println();
             }
-            dayIterator = dayIterator.plusDays(1);
+
         }
+
+
+
     }
+
 }
